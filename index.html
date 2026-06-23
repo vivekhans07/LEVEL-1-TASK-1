@@ -1,0 +1,287 @@
+cat > index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LearnWell Tutorials — Learn Better, Score Higher</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink:     #0F1117;
+      --paper:   #F7F5F0;
+      --primary: #1A56DB;
+      --accent:  #F4C430;
+      --muted:   #6B7280;
+      --white:   #FFFFFF;
+      --border:  #E5E7EB;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.6; }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 6vw; display: flex; align-items: center;
+      justify-content: space-between; height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif; font-size: 1.35rem;
+      font-weight: 800; color: var(--ink); text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo span {
+      background: var(--primary); color: var(--white);
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 0.85rem; font-weight: 600;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--primary); color: var(--white);
+      padding: 10px 22px; border-radius: 8px;
+      text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+    .hero {
+      padding: 90px 6vw 80px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #EFF6FF; color: var(--primary);
+      padding: 6px 14px; border-radius: 100px;
+      font-size: 0.8rem; font-weight: 600;
+      margin-bottom: 20px; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .hero-eyebrow::before { content: ''; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 800; line-height: 1.1; color: var(--ink); margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--primary), #3B82F6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { color: var(--muted); font-size: 1.05rem; max-width: 440px; margin-bottom: 36px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--primary); color: var(--white);
+      padding: 14px 28px; border-radius: 10px;
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(26,86,219,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26,86,219,0.35); }
+    .btn-ghost {
+      border: 2px solid var(--border); color: var(--ink);
+      padding: 14px 28px; border-radius: 10px;
+      text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+    .hero-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .stat-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+      display: flex; flex-direction: column; gap: 4px; transition: transform 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-3px); }
+    .stat-card.accent { background: var(--primary); border-color: var(--primary); }
+    .stat-card.accent .stat-num, .stat-card.accent .stat-label { color: var(--white); }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--ink); }
+    .stat-label { font-size: 0.82rem; color: var(--muted); font-weight: 500; }
+    .stat-icon { font-size: 1.5rem; margin-bottom: 8px; }
+    .section { padding: 80px 6vw; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 10px; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; color: var(--ink); margin-bottom: 12px; }
+    .section-sub { color: var(--muted); font-size: 1rem; max-width: 520px; margin-bottom: 48px; }
+    .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .subject-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px 22px; transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .subject-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-3px); }
+    .subject-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 16px; }
+    .subject-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .subject-card p { font-size: 0.85rem; color: var(--muted); }
+    .how-section { background: var(--ink); padding: 80px 6vw; }
+    .how-inner { max-width: 1200px; margin: 0 auto; }
+    .how-section .section-label { color: var(--accent); }
+    .how-section .section-title { color: var(--white); }
+    .how-section .section-sub { color: #9CA3AF; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 32px; }
+    .step { display: flex; flex-direction: column; gap: 14px; padding: 28px; border: 1px solid #1F2937; border-radius: 14px; background: #161B27; }
+    .step-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .step h3 { color: var(--white); font-size: 1rem; font-weight: 600; }
+    .step p { color: #9CA3AF; font-size: 0.88rem; }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .why-list { list-style: none; display: flex; flex-direction: column; gap: 22px; }
+    .why-item { display: flex; gap: 16px; align-items: flex-start; }
+    .why-check { width: 36px; height: 36px; border-radius: 10px; background: #EFF6FF; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .why-item h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 3px; }
+    .why-item p { font-size: 0.85rem; color: var(--muted); }
+    .why-image { background: linear-gradient(135deg, #1A56DB 0%, #3B82F6 100%); border-radius: 20px; padding: 40px; display: flex; flex-direction: column; gap: 20px; }
+    .quote-text { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--white); line-height: 1.4; }
+    .quote-name { color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+    .testi-section { background: #F0F4FF; padding: 80px 6vw; }
+    .testi-inner { max-width: 1200px; margin: 0 auto; }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .testi-card { background: var(--white); border-radius: 14px; padding: 28px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 16px; }
+    .stars { color: var(--accent); font-size: 1rem; letter-spacing: 2px; }
+    .testi-card p { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+    .testi-author { font-weight: 600; font-size: 0.9rem; }
+    .testi-role { font-size: 0.8rem; color: var(--muted); }
+    .cta-section { padding: 80px 6vw; max-width: 1200px; margin: 0 auto; }
+    .cta-box { background: var(--primary); border-radius: 24px; padding: 60px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px; }
+    .cta-box h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--white); }
+    .cta-box p { color: rgba(255,255,255,0.75); margin-top: 8px; font-size: 0.95rem; }
+    .btn-white { background: var(--white); color: var(--primary); padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; white-space: nowrap; transition: transform 0.2s; }
+    .btn-white:hover { transform: translateY(-2px); }
+    footer { background: var(--ink); padding: 48px 6vw 24px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 40px; border-bottom: 1px solid #1F2937; }
+    .footer-brand p { color: #6B7280; font-size: 0.88rem; margin-top: 12px; max-width: 260px; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--white); text-decoration: none; }
+    .footer-col h4 { color: var(--white); font-size: 0.85rem; font-weight: 600; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { color: #6B7280; font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { color: #4B5563; font-size: 0.82rem; }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { grid-template-columns: 1fr 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      nav .nav-links { display: none; }
+    }
+    @media (max-width: 540px) {
+      .hero { padding: 60px 5vw 48px; }
+      .hero-actions { flex-direction: column; }
+      .cta-box { padding: 36px 24px; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="#" class="nav-logo">LearnWell <span>Tutorials</span></a>
+  <ul class="nav-links">
+    <li><a href="#subjects">Subjects</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+  </ul>
+  <a href="#enroll" class="nav-cta">Enroll Now</a>
+</nav>
+<section>
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Jammu's Trusted Coaching Centre</div>
+      <h1>Learn Better,<br/><em>Score Higher.</em></h1>
+      <p>From school foundations to competitive exam prep — expert-led sessions, personalized attention, and results you can see.</p>
+      <div class="hero-actions">
+        <a href="#enroll" class="btn-primary">Start Learning Today</a>
+        <a href="#subjects" class="btn-ghost">View Subjects →</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="stat-card accent"><div class="stat-icon">🎓</div><div class="stat-num">500+</div><div class="stat-label">Students Taught</div></div>
+      <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-num">4.9</div><div class="stat-label">Average Rating</div></div>
+      <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-num">8+</div><div class="stat-label">Subjects Covered</div></div>
+      <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-num">92%</div><div class="stat-label">Pass Rate</div></div>
+    </div>
+  </div>
+</section>
+<section id="subjects">
+  <div class="section">
+    <div class="section-label">What We Teach</div>
+    <div class="section-title">Subjects We Cover</div>
+    <p class="section-sub">Structured courses for Classes 8–12 and undergraduate students, taught by experienced faculty.</p>
+    <div class="subjects-grid">
+      <div class="subject-card"><div class="subject-icon" style="background:#EFF6FF;">🔢</div><h3>Mathematics</h3><p>Algebra, Calculus, Trigonometry — from basics to advanced problem solving.</p></div>
+      <div class="subject-card"><div class="subject-icon" style="background:#F0FDF4;">⚗️</div><h3>Science</h3><p>Physics, Chemistry, and Biology — concept-first approach with lab-level clarity.</p></div>
+      <div class="subject-card"><div class="subject-icon" style="background:#FFF7ED;">💻</div><h3>Computer Science</h3><p>Programming basics, theory, and practical projects for modern learners.</p></div>
+      <div class="subject-card"><div class="subject-icon" style="background:#FDF4FF;">📖</div><h3>English</h3><p>Grammar, writing skills, and comprehension for board and competitive exams.</p></div>
+      <div class="subject-card"><div class="subject-icon" style="background:#FFF1F2;">📐</div><h3>Engineering Math</h3><p>Tailored for B.Tech / Diploma students — Engineering Mathematics made simple.</p></div>
+      <div class="subject-card"><div class="subject-icon" style="background:#F0FDF4;">🧠</div><h3>Aptitude & Reasoning</h3><p>Competitive exam prep — quantitative aptitude, logical reasoning, and verbal ability.</p></div>
+    </div>
+  </div>
+</section>
+<section id="how" class="how-section">
+  <div class="how-inner">
+    <div class="section-label">Our Process</div>
+    <div class="section-title" style="color:#fff;">How It Works</div>
+    <p class="section-sub">A clear path from enrolment to results — no confusion, no wasted time.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h3>Free Diagnostic Session</h3><p>We assess your current level and identify exactly where to focus first — for free.</p></div>
+      <div class="step"><div class="step-num">02</div><h3>Personalized Study Plan</h3><p>A customized schedule built around your syllabus, exam dates, and learning pace.</p></div>
+      <div class="step"><div class="step-num">03</div><h3>Regular Classes + Doubt Sessions</h3><p>Daily or weekly sessions with dedicated doubt-clearing slots — in-person and online.</p></div>
+      <div class="step"><div class="step-num">04</div><h3>Tests & Progress Reports</h3><p>Regular mock tests with detailed feedback, so you always know where you stand.</p></div>
+    </div>
+  </div>
+</section>
+<section id="why">
+  <div class="section">
+    <div class="why-grid">
+      <div>
+        <div class="section-label">Why LearnWell</div>
+        <div class="section-title">Teaching That Actually Works</div>
+        <p class="section-sub">We don't just cover the syllabus — we build understanding that lasts beyond the exam hall.</p>
+        <ul class="why-list">
+          <li class="why-item"><div class="why-check">✓</div><div><h4>Small Batch Sizes</h4><p>Maximum 10 students per batch — every student gets personal attention, not just a seat.</p></div></li>
+          <li class="why-item"><div class="why-check">📝</div><div><h4>Study Material Included</h4><p>Comprehensive notes, practice sheets, and previous year question papers — all included.</p></div></li>
+          <li class="why-item"><div class="why-check">📞</div><div><h4>Parent Progress Updates</h4><p>Regular feedback to parents — so the whole support system knows what's happening.</p></div></li>
+          <li class="why-item"><div class="why-check">🏠</div><div><h4>Flexible Timings</h4><p>Morning, evening, and weekend batches — designed around school and college schedules.</p></div></li>
+        </ul>
+      </div>
+      <div class="why-image">
+        <div class="quote-text">"The goal is not to finish the syllabus. The goal is to make sure every student understands what they learned."</div>
+        <div class="quote-name">— Sujal Raina, Founder, LearnWell Tutorials</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="testimonials" class="testi-section">
+  <div class="testi-inner">
+    <div class="section-label">Student Reviews</div>
+    <div class="section-title">What Our Students Say</div>
+    <p class="section-sub" style="margin-bottom:40px;">Real feedback from real students who came, studied, and scored.</p>
+    <div class="testi-grid">
+      <div class="testi-card"><div class="stars">★★★★★</div><p>"I was failing Maths in Class 11. Three months at LearnWell and I scored 87 in boards. The doubt sessions made all the difference."</p><div><div class="testi-author">Rahul Sharma</div><div class="testi-role">Class 12 — PCM</div></div></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p>"The Engineering Maths coaching saved my semester. Concepts I couldn't understand in college made sense here in just a week."</p><div><div class="testi-author">Priya Verma</div><div class="testi-role">B.Tech 2nd Year</div></div></div>
+      <div class="testi-card"><div class="stars">★★★★☆</div><p>"Best part is the mock tests — they're harder than the actual exam. By the time boards came, I felt totally prepared."</p><div><div class="testi-author">Aditya Singh</div><div class="testi-role">Class 10 — Science</div></div></div>
+    </div>
+  </div>
+</section>
+<section id="enroll" class="cta-section">
+  <div class="cta-box">
+    <div><h2>Ready to start scoring higher?</h2><p>Book a free diagnostic session — no commitment, just clarity on what to work on next.</p></div>
+    <a href="tel:+91XXXXXXXXXX" class="btn-white">Book Free Session →</a>
+  </div>
+</section>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">LearnWell Tutorials</a>
+        <p>Quality coaching for Classes 8–12 and undergraduate students. Based in Jammu, serving students across the region.</p>
+      </div>
+      <div class="footer-col"><h4>Subjects</h4><ul><li><a href="#">Mathematics</a></li><li><a href="#">Science</a></li><li><a href="#">Computer Science</a></li><li><a href="#">English</a></li></ul></div>
+      <div class="footer-col"><h4>Resources</h4><ul><li><a href="#">Study Notes</a></li><li><a href="#">Practice Papers</a></li><li><a href="#">Mock Tests</a></li><li><a href="#">Exam Tips</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">📍 Jammu, J&K</a></li><li><a href="#">📞 +91-XXXXXXXXXX</a></li><li><a href="#">✉️ learnwell@email.com</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 LearnWell Tutorials. Founded by Sujal Raina.</p>
+      <p>Built for OIBSIP — Web Development & Designing Internship</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
+EOF
